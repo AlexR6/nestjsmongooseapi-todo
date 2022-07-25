@@ -8,27 +8,43 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
+import { GetUser } from 'src/user/decorator/get-user.decorator';
+import { JwtGuard } from '../auth/guard/auth.guard';
 import { TodoDto } from './dto/todo.dto';
 import { TodoService } from './todo.service';
 
+@UseGuards(JwtGuard)
 @Controller('todo')
 export class TodoController {
   constructor(private todoService: TodoService) {}
   @Get('all')
-  getTodos() {
-    return this.todoService.getTodos();
+  getTodos(@GetUser('id') userId: string) {
+    return this.todoService.getTodos(userId);
   }
 
   @Post('new')
-  createTodo(@Body() todoDto: TodoDto) {
-    return this.todoService.createTodo(todoDto);
+  createTodo(
+    @Body() todoDto: TodoDto,
+    @GetUser('id') userId: string,
+  ) {
+    return this.todoService.createTodo(
+      todoDto,
+      userId,
+    );
   }
 
   @HttpCode(HttpStatus.OK)
   @Put('update/:id')
-  updateTodo(@Body() todoDto: TodoDto, @Param() params: any) {
-    return this.todoService.updateTodo(todoDto, params.id);
+  updateTodo(
+    @Body() todoDto: TodoDto,
+    @Param() params: any,
+  ) {
+    return this.todoService.updateTodo(
+      todoDto,
+      params.id,
+    );
   }
 
   @Delete('delete/:id')

@@ -1,4 +1,8 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import {
+  Prop,
+  Schema,
+  SchemaFactory,
+} from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
 export type TodoDocument = Todo & Document;
@@ -10,6 +14,10 @@ export class Todo {
 
   @Prop()
   description: string;
+
+  @Prop()
+  userId: string;
 }
 
-export const TodoSchema = SchemaFactory.createForClass(Todo);
+export const TodoSchema =
+  SchemaFactory.createForClass(Todo);
