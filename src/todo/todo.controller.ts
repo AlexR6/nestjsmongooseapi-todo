@@ -11,7 +11,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { GetUser } from 'src/user/decorator/get-user.decorator';
-import { JwtGuard } from '../auth/guard/auth.guard';
+import { JwtGuard } from '../jwt-utils/guard/jwt.guard';
 import { TodoDto } from './dto/todo.dto';
 import { TodoService } from './todo.service';
 

@@ -12,7 +12,9 @@ import { JwtUtilsModule } from './jwt-utils/jwt-utils.module';
       isGlobal: true,
     }),
     TodoModule,
-    MongooseModule.forRoot(process.env.DATABASE_URL),
+    MongooseModule.forRoot(
+      process.env.DATABASE_URL,
+    ),
     AuthModule,
     UserModule,
     JwtUtilsModule,

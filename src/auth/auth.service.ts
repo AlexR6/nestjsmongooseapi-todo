@@ -6,6 +6,7 @@ import { JwtService } from '@nestjs/jwt';
 import { InjectModel } from '@nestjs/mongoose';
 import * as argon from 'argon2';
 import { Model } from 'mongoose';
+import { JwtUtilsService } from 'src/jwt-utils/jwt-utils.service';
 import {
   User,
   UserDocument,
@@ -15,7 +16,7 @@ import { AuthDto } from './dto/auth.dto';
 @Injectable()
 export class AuthService {
   constructor(
-    private jwtService: JwtService,
+    private jwtUtilsService: JwtUtilsService,
     @InjectModel(User.name)
     private userModel: Model<UserDocument>,
   ) {}
@@ -35,7 +36,7 @@ export class AuthService {
           'Credentials incorrect',
         );
 
-      return this.signToken(user);
+      return this.jwtUtilsService.signToken(user);
     } catch (err) {
       console.log(err);
     }
@@ -51,7 +52,7 @@ export class AuthService {
         password,
       });
 
-      return this.signToken(user);
+      return this.jwtUtilsService.signToken(user);
     } catch (err) {
       if (err.code === 11000) {
         throw new ForbiddenException(
@@ -62,21 +63,21 @@ export class AuthService {
     }
   }
 
-  async signToken(user: User) {
-    const payload = {
-      sub: user._id,
-      email: user.email,
-    };
-    return this.jwtService
-      .signAsync(payload, {
-        expiresIn: '1h',
-        secret: process.env.JWT_SECRET,
-      })
-      .then((access_token: string) => {
-        return { access_token };
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
+  // async signToken(user: User) {
+  //   const payload = {
+  //     sub: user._id,
+  //     email: user.email,
+  //   };
+  //   return this.jwtService
+  //     .signAsync(payload, {
+  //       expiresIn: '1h',
+  //       secret: process.env.JWT_SECRET,
+  //     })
+  //     .then((access_token: string) => {
+  //       return { access_token };
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }
 }
