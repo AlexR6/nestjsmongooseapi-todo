@@ -16,8 +16,12 @@ export class TodoService {
 
   async getTodos(
     userId: string,
+    active: number,
   ): Promise<Todo[]> {
-    return this.todoModel.find({ userId });
+    return this.todoModel.find({
+      userId,
+      active,
+    });
   }
 
   async createTodo(
@@ -38,6 +42,24 @@ export class TodoService {
     return this.todoModel.findByIdAndUpdate(
       todoId,
       todoDto,
+      { new: true },
+    );
+  }
+
+  async endTodo(todoId: string): Promise<Todo> {
+    const data = { active: 0, endAt: Date.now() };
+    return this.todoModel.findByIdAndUpdate(
+      todoId,
+      data,
+      { new: true },
+    );
+  }
+
+  async beginTodo(todoId: string): Promise<Todo> {
+    const data = { active: 1, endAt: null };
+    return this.todoModel.findByIdAndUpdate(
+      todoId,
+      data,
       { new: true },
     );
   }

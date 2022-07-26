@@ -20,7 +20,7 @@ export class UserController {
 
   @Get()
   getUser(@GetUser() user: User) {
-    return user;
+    return { user };
   }
 
   @HttpCode(HttpStatus.OK)

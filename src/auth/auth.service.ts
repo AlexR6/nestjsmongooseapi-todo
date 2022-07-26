@@ -2,7 +2,6 @@ import {
   Injectable,
   ForbiddenException,
 } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
 import { InjectModel } from '@nestjs/mongoose';
 import * as argon from 'argon2';
 import { Model } from 'mongoose';
@@ -26,19 +25,24 @@ export class AuthService {
         email: authDto.email,
       });
 
+      if (!user)
+        throw new ForbiddenException(
+          'Identifiants incorrects',
+        );
+
       const pwMatches = await argon.verify(
         user.password,
         authDto.password,
       );
 
-      if (!pwMatches || !user)
+      if (!pwMatches)
         throw new ForbiddenException(
-          'Credentials incorrect',
+          'Identifiants incorrects',
         );
 
       return this.jwtUtilsService.signToken(user);
     } catch (err) {
-      console.log(err);
+      throw err;
     }
   }
 
@@ -59,25 +63,7 @@ export class AuthService {
           'Credentials taken',
         );
       }
-      console.log(err);
+      throw err;
     }
   }
-
-  // async signToken(user: User) {
-  //   const payload = {
-  //     sub: user._id,
-  //     email: user.email,
-  //   };
-  //   return this.jwtService
-  //     .signAsync(payload, {
-  //       expiresIn: '1h',
-  //       secret: process.env.JWT_SECRET,
-  //     })
-  //     .then((access_token: string) => {
-  //       return { access_token };
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }
 }

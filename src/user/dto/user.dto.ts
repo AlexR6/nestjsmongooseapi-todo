@@ -1,5 +1,8 @@
 import { IsArray } from 'class-validator';
-import { IsEmail, IsNotEmpty } from 'class-validator';
+import {
+  IsEmail,
+  IsNotEmpty,
+} from 'class-validator';
 
 export class UserDto {
   @IsEmail()
@@ -8,8 +11,4 @@ export class UserDto {
 
   @IsNotEmpty()
   password: string;
-
-  @IsNotEmpty()
-  @IsArray()
-  roles: [string];
 }

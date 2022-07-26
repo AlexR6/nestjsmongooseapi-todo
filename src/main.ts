@@ -10,6 +10,10 @@ async function bootstrap() {
       whitelist: true,
     }),
   );
+  app.enableCors({
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    origin: ['http://localhost:3000'],
+  });
   await app.listen(process.env.PORT);
 }
 bootstrap();

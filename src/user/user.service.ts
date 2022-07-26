@@ -22,12 +22,12 @@ export class UserService {
     userDto: UserDto,
     userId: string,
   ) {
-    // const user =
-    //   await this.userModel.findByIdAndUpdate(
-    //     userId,
-    //     userDto,
-    //     { new: true },
-    //   );
-    // return this.jwtUtilsService.signToken(user);
+    const user =
+      await this.userModel.findByIdAndUpdate(
+        userId,
+        userDto,
+        { new: true },
+      );
+    return this.jwtUtilsService.signToken(user);
   }
 }
