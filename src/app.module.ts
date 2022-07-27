@@ -5,6 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { JwtUtilsModule } from './jwt-utils/jwt-utils.module';
+import { CategoryModule } from './category/category.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { JwtUtilsModule } from './jwt-utils/jwt-utils.module';
     AuthModule,
     UserModule,
     JwtUtilsModule,
+    CategoryModule,
   ],
   controllers: [],
   providers: [],

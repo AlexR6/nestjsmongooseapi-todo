@@ -17,11 +17,28 @@ export class TodoService {
   async getTodos(
     userId: string,
     active: number,
+    offset: number,
+    limit: number,
+    categoryId: string,
   ): Promise<Todo[]> {
-    return this.todoModel.find({
-      userId,
-      active,
-    });
+    if (categoryId == '') {
+      return this.todoModel
+        .find({
+          userId,
+          active,
+        })
+        .skip(offset)
+        .limit(limit);
+    } else {
+      return this.todoModel
+        .find({
+          userId,
+          active,
+          categoryId,
+        })
+        .skip(offset)
+        .limit(limit);
+    }
   }
 
   async createTodo(
@@ -46,17 +63,14 @@ export class TodoService {
     );
   }
 
-  async endTodo(todoId: string): Promise<Todo> {
-    const data = { active: 0, endAt: Date.now() };
-    return this.todoModel.findByIdAndUpdate(
-      todoId,
-      data,
-      { new: true },
-    );
-  }
-
-  async beginTodo(todoId: string): Promise<Todo> {
-    const data = { active: 1, endAt: null };
+  async updateTodoStatus(
+    status: number,
+    todoId: string,
+  ): Promise<Todo> {
+    const data = {
+      active: status,
+      endAt: new Date(),
+    };
     return this.todoModel.findByIdAndUpdate(
       todoId,
       data,

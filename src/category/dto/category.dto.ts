@@ -5,7 +5,7 @@ import {
   ValidationArguments,
 } from 'class-validator';
 
-export class TodoDto {
+export class CategoryDto {
   @MinLength(2, {
     message: (args: ValidationArguments) => {
       if (!args.value)
@@ -28,15 +28,6 @@ export class TodoDto {
       'Le nom doit être une chaines de caractères',
   })
   name: string;
-
-  @MaxLength(200, {
-    message: (args: ValidationArguments) => {
-      if (args.value && args.value.length > 50)
-        return 'La description est trop longue';
-    },
-  })
   @IsString()
-  description: string;
-
-  categoryId: string;
+  color: string;
 }

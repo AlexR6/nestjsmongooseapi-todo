@@ -3,7 +3,6 @@ import {
   Schema,
   SchemaFactory,
 } from '@nestjs/mongoose';
-import { IsNumber } from 'class-validator';
 import { Date, Document } from 'mongoose';
 
 export type TodoDocument = Todo & Document;
@@ -27,6 +26,9 @@ export class Todo {
 
   @Prop({ type: Date })
   endAt: Date;
+
+  @Prop({ type: String })
+  categoryId: string;
 }
 
 export const TodoSchema =
