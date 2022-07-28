@@ -20,9 +20,18 @@ export class CategoryController {
     private categoryService: CategoryService,
   ) {}
 
+  @Get('/get/:id')
+  getCategoryWhereId(
+    @Param('id') categoryId: string,
+  ) {
+    return this.categoryService.getCategoryWhereId(
+      categoryId,
+    );
+  }
+
   @Get('all')
-  getCategorys(@GetUser('id') userId: string) {
-    return this.categoryService.getCategory(
+  getCategories(@GetUser('id') userId: string) {
+    return this.categoryService.getCategories(
       userId,
     );
   }

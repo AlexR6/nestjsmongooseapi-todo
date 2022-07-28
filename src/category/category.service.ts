@@ -14,7 +14,15 @@ export class CategoryService {
     private categoryModel: Model<CategoryDocument>,
   ) {}
 
-  async getCategory(
+  async getCategoryWhereId(
+    categoryId: string,
+  ): Promise<Category> {
+    return this.categoryModel.findById(
+      categoryId,
+    );
+  }
+
+  async getCategories(
     userId: string,
   ): Promise<Category[]> {
     return this.categoryModel.find({ userId });
