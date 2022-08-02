@@ -10,7 +10,7 @@ export class JwtUtilsService extends JwtService {
   async signToken(user: User) {
     const payload = {
       sub: user._id,
-      email: user.email,
+      pseudo: user.pseudo,
     };
     return this.signAsync(payload, {
       expiresIn: '1h',

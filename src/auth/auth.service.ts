@@ -22,7 +22,7 @@ export class AuthService {
   async signin(authDto: AuthDto) {
     try {
       const user = await this.userModel.findOne({
-        email: authDto.email,
+        pseudo: authDto.pseudo,
       });
 
       if (!user)
@@ -60,7 +60,7 @@ export class AuthService {
     } catch (err) {
       if (err.code === 11000) {
         throw new ForbiddenException(
-          'Credentials taken',
+          'Identifiants déjà pris',
         );
       }
       throw err;
